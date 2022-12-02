@@ -35,13 +35,13 @@ X(1) - Rock, Y(2) - Paper, Z(3) - Scissors
 Win = 6, Draw = 3, Loss = 0
 #>
 
-$file = New-Object System.IO.StreamReader("C:\Users\1294643814A\OneDrive - United States Air Force\advent_of_code\day_2\day2.txt")
 
 
-<# part 1#>
+
+<# part
 #answer: 11666
 $score = 0
-
+$file = New-Object System.IO.StreamReader("C:\Users\1294643814A\OneDrive - United States Air Force\advent_of_code\day_2\day2.txt")
 try {
 
     while (($line = $file.ReadLine()) -ne $null) {
@@ -70,4 +70,84 @@ finally {
     $file.Close()
 }
 <#/ part 1 #>
+
+
+
+<#part 2
+The Elf finishes helping with the tent and sneaks back over to you. "Anyway, the second column says how the round needs to end: X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win. Good luck!"
+
+The total score is still calculated in the same way, but now you need to figure out what shape to choose so the round ends as indicated. The example above now goes like this:
+
+In the first round, your opponent will choose Rock (A), and you need the round to end in a draw (Y), so you also choose Rock. This gives you a score of 1 + 3 = 4.
+In the second round, your opponent will choose Paper (B), and you choose Rock so you lose (X) with a score of 1 + 0 = 1.
+In the third round, you will defeat your opponent's Scissors with Rock for a score of 1 + 6 = 7.
+Now that you're correctly decrypting the ultra top secret strategy guide, you would get a total score of 12.#>
+$file = New-Object System.IO.StreamReader("C:\Users\1294643814A\OneDrive - United States Air Force\advent_of_code\day_2\day2.txt")
+
+#1 - Rock, 2 - Paper, 3 - Scissors
+#Win = 6, Draw = 3, Loss = 0
+
+#answer: 
+$score = 0
+
+try {
+    while (($line = $file.ReadLine())) {
+        $op, $you = $line.Split(" ")
+        $round_score = 0
+        write-host 'Opponent: '$op '---- you: '$you
+        if ($you -eq "X") {
+            #lose = 0
+            if ($op -eq "A") {
+                #Lose to rock with scissors
+                $round_score = 3
+            }
+            elseif ($op -eq "B") {
+                #lose to paper with rock
+                $round_score = 1
+            }
+            else {
+                #lose to scissors with paper
+                $round_score = 2
+            }
+        }
+        if ($you -eq "Y") {
+            #draw = 3
+            if ($op -eq "A") {
+                #tie rock with rock
+                $round_score = 4
+            }
+            if ($op -eq "B") {
+                #tie paper with paper
+                $round_score = 5
+            }
+            else {
+                #tie scissors with scissor
+                $round_score = 6
+            }
+        }
+        if ($you -eq "Z") {
+            #win = 6
+            if ($op -eq "A") {
+                #beat rock with paper
+                $round_score = 8
+            }
+            if ($op -eq "B") {
+                #beat paper with scissors
+                $round_score = 9
+            }
+            else {
+                #beat scissors with rock
+                $round_score = 7
+            }
+        }
+        Write-Host $round_score
+        $score += $round_score
+    }   
+    Write-Output $score
+}
+
+finally {
+    $file.Close()
+}
+<#/ part 2 #>
 
