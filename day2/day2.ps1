@@ -31,12 +31,15 @@ $filecontent.GetType()#>
 
 <#
 A - Rock, B - Paper, C - Scissors
-X(1) - Rock, Y(2) - Paper, C(3) - Scissors
+X(1) - Rock, Y(2) - Paper, Z(3) - Scissors
 Win = 6, Draw = 3, Loss = 0
 #>
 
 $file = New-Object System.IO.StreamReader("C:\Users\1294643814A\OneDrive - United States Air Force\advent_of_code\day_2\day2.txt")
 
+
+<# part 1#>
+#answer: 11666
 $score = 0
 
 try {
@@ -44,9 +47,27 @@ try {
     while (($line = $file.ReadLine()) -ne $null) {
         $op, $you = $line.Split(" ")
         #write-host 'Opponent: '$op '---- you: '$you
-        
+        if ($you -eq "X") {
+            $score++
         }
+        elseif ($you -eq "Y") {
+            $score += 2  
+        }
+        else { $score += 3 }
+
+        if (($op -eq "A" -and $you -eq "Y") -or ($op -eq "B" -and $you -eq "Z") -or ($op -eq "C" -and $you -eq "X")) {
+            $score += 6
+        }
+        elseif (($op -eq "A" -and $you -eq "X") -or ($op -eq "B" -and $you -eq "Y") -or ($op -eq "C" -and $you -eq "Z")) {
+            $score += 3
+        }
+
     }
+    Write-Output $score
+}
+
 finally {
     $file.Close()
-    }
+}
+<#/ part 1 #>
+
