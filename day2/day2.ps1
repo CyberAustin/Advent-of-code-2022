@@ -83,21 +83,16 @@ In the second round, your opponent will choose Paper (B), and you choose Rock so
 In the third round, you will defeat your opponent's Scissors with Rock for a score of 1 + 6 = 7.
 Now that you're correctly decrypting the ultra top secret strategy guide, you would get a total score of 12.#>
 
-function Read-File {
-    [string[]]$data
-    $file = New-Object System.IO.StreamReader("C:\Users\1294643814A\OneDrive - United States Air Force\advent_of_code\day_2\day2.txt")
-    $data = $file
-    $file.close()
-    return $data
-}
+
 
 #1 - Rock, 2 - Paper, 3 - Scissors
 #Win = 6, Draw = 3, Loss = 0
 
-#answer: 
+#answer: 12767
 $score = 0
 
-
+$filename = "./day2.txt"
+$file = New-Object System.IO.StreamReader($filename)
 
 while (($line = $file.ReadLine())) {
     $op, $you = $line.Split(" ")
@@ -152,5 +147,5 @@ while (($line = $file.ReadLine())) {
     $score += $round_score
 }   
 Write-Output $score
-
+$file.Close()
 <#/ part 2 #>
