@@ -46,8 +46,12 @@ func part1(part1_in []string) {
 	//Answer: 7428
 }
 
+func part2(part2_in []string) {
+
+}
+
 func main() {
 	input := importfile()
 	part1(input)
-
+	part2(input)
 }
