@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-var infile = "./day3_hms.txt"
+var infile = "./day3.txt"
 
 var supplies = make(map[string]int)
 
@@ -47,11 +47,39 @@ func part1(part1_in []string) {
 }
 
 func part2(part2_in []string) {
+  var count2 = 0
+	for i := 0; i < len(part2_in); i += 3 {
+    one := strings.Trim(part2_in[i]," ")
+    two := strings.Trim(part2_in[i+1]," ")
+    three := strings.Trim(part2_in[i+2]," ")
 
+    //fmt.Printf("One: %s\nTwo: %s\nThree: %s\n", one, two, three)
+    
+    for _, i := range one {
+      fmt.Println(i)
+      already_found2 := ""
+      if strings.Contains(already_found2, string(i)) {
+        //fmt.Println(string(i))
+        continue
+      }
+  		if strings.Contains(two, string(i)) {
+        if strings.Contains(three, string(i)) {
+        count2 += priority[string(i)]
+        already_found2 += string(i)
+         // fmt.Println(rune(i))
+         }
+      }
+      //fmt.Println(already_found2)
+    }
+  }
+  
+  fmt.Println(count2)
 }
+	
+
 
 func main() {
 	input := importfile()
-	part1(input)
+	//part1(input)
 	part2(input)
 }
