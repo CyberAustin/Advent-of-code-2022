@@ -51,13 +51,10 @@ func part1(input []string) {
 		check(err)
 
 		if (left_l >= right_l && left_r <= right_r) || (right_l >= left_l && right_r <= left_r) {
-			fmt.Println(left_l, left_r, right_l, right_r)
 			count++
 		}
-
-		//fmt.Println(left_l, left_r, right_l, right_r)
 	}
-	fmt.Println(count)
+	fmt.Println("Part1:", count)
 }
 
 func part2(input []string) {
@@ -77,13 +74,13 @@ func part2(input []string) {
 		right_r, err := strconv.Atoi(strings.Split(right, "-")[1])
 		check(err)
 
-		if (left_l >= right_l || left_r <= right_r) || (right_l >= left_l || right_r <= left_r) {
-			fmt.Println(left_l, left_r, right_l, right_r)
+		//ll - lr, rl - rr
+		if (left_l <= right_r && left_r >= right_l) || (right_l <= left_l && right_r >= left_r) {
 			count++
 		}
 
 	}
-	fmt.Println(count)
+	fmt.Println("Part2:", count)
 }
 
 func main() {
