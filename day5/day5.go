@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+  "math"
 )
 
 var infile = "day5_hms_clean.txt"
@@ -66,7 +67,7 @@ func (s stack) Pop() (stack, string) {
 */
 
 func main() {
-	instructions := importfile()
+	//instructions := importfile()
 	ship := make([]stack, 0)
 	ship = append(ship, []string{"R", "H", "M", "P", "Z"})
 	ship = append(ship, []string{"B", "J", "C", "P"})
@@ -77,11 +78,117 @@ func main() {
 	ship = append(ship, []string{"V", "R", "N"})
 	ship = append(ship, []string{"M", "C", "V", "D", "T", "L", "G", "P"})
 	ship = append(ship, []string{"L", "M", "F", "J", "N", "Q", "W"})
-	part1(ship, instructions)
+	//part1(ship, instructions)
+  //partOne()
+  partTwo()
 }
 
 //Seek inspiration from here I guess
 //https://old.reddit.com/r/adventofcode/comments/zcxid5/2022_day_5_solutions/iz583oy/
+func partOne() {
+  input, _ := os.ReadFile("day5_hms.txt")
+    split := strings.Split(string(input), "\n\n")
+    layout := strings.Split(split[0], "\n")
+    stacks := make(map[int][]rune)
+    stackKeys := []int{}
+    for i := len(layout) - 1; i >= 0; i-- {
+        if i == len(layout)-1 {
+            for _, k := range strings.Split(strings.TrimSpace(layout[i]), "   ") {
+                key, _ := strconv.Atoi(k)
+                stacks[key] = []rune{}
+                stackKeys = append(stackKeys, key)
+            }
+        } else {
+            for i, c := range layout[i] {
+                if !strings.ContainsAny(string(c), " []") {
+                    key := int(math.Ceil(float64(i) / 4))
+                    stacks[key] = append(stacks[key], c)
+                }
+            }
+        }
+
+    }
+    moves := strings.Split(split[1], "\n")
+    
+  
+    for _, move := range moves {
+        var amount int
+        var from int
+        var to int
+        fmt.Sscanf(move, "move %d from %d to %d", &amount, &from, &to)
+        source := stacks[from]
+        destination := stacks[to]
+        for i := 0; i < amount; i++ {
+            n := len(source) - 1 // Top element
+            destination = append(destination, source[n])
+            source = source[:n] // Pop
+        }
+        stacks[from] = source
+        stacks[to] = destination
+    }
+    partOne := ""
+    for _, k := range stackKeys {
+        partOne += string(stacks[k][len(stacks[k])-1])
+    }
+    fmt.Println(partOne)
+  //VQZNJMWTR
+}
+
+func partTwo() {
+  input, _ := os.ReadFile("day5_hms.txt")
+    split := strings.Split(string(input), "\n\n")
+    layout := strings.Split(split[0], "\n")
+    stacks := make(map[int][]rune)
+    stackKeys := []int{}
+    for i := len(layout) - 1; i >= 0; i-- {
+        if i == len(layout)-1 {
+            for _, k := range strings.Split(strings.TrimSpace(layout[i]), "   ") {
+                key, _ := strconv.Atoi(k)
+                stacks[key] = []rune{}
+                stackKeys = append(stackKeys, key)
+            }
+        } else {
+            for i, c := range layout[i] {
+                if !strings.ContainsAny(string(c), " []") {
+                    key := int(math.Ceil(float64(i) / 4))
+                    stacks[key] = append(stacks[key], c)
+                }
+            }
+        }
+
+    }
+    moves := strings.Split(split[1], "\n")
+    for _, move := range moves {
+        var amount int
+        var from int
+        var to int
+        fmt.Sscanf(move, "move %d from %d to %d", &amount, &from, &to)
+        source := stacks[from]
+        destination := stacks[to]
+        tempstack := []rune{}
+        for i := 0; i < amount; i++ {
+            n := len(source) - 1 // Top element
+            tempstack = append(tempstack, source[n])
+            source = source[:n] // Pop
+        }
+      for i := 0; i < amount; i++ {
+            n := len(tempstack) - 1 // Top element
+            destination = append(destination, tempstack[n])
+            tempstack = tempstack[:n] // Pop
+        }
+
+        stacks[from] = source
+        stacks[to] = destination
+    }
+    partTwo := ""
+    for _, k := range stackKeys {
+        partTwo += string(stacks[k][len(stacks[k])-1])
+    }
+    fmt.Println(partTwo)
+  //NLCDCLVMQ
+}
+
+/*This shit didn't work
 func part1(p1_ship []stack, instructions [][]int) {
 	for _, line := range instructions {
 		fmt.Println(line)
@@ -102,4 +209,4 @@ func part1(p1_ship []stack, instructions [][]int) {
 		fmt.Printf("%s", val)
 	}
 	fmt.Println()
-}
+}*/
