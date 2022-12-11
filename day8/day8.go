@@ -41,25 +41,25 @@ func part1(forest [][]int) {
 	var total_visible = 0
 	for x := 0; x < len(forest[0]); x++ {
 		for y := 0; y < len(forest); y++ {
-			for _, v := range forest[x][0:y] {
+			for _, v := range forest[x][:y] {
 				if v < forest[x][y] {
 					total_visible++
 					break
 				}
 			}
-			for _, v := range forest[x][y : len(forest)-1] {
+			for _, v := range forest[x][y:] {
 				if v < forest[x][y] {
 					total_visible++
 					break
 				}
 			}
-			for _, v := range forest[0:][y] {
+			for _, v := range forest[:x][y] {
 				fmt.Println(x, y)
 				if v < forest[x][y] {
 					total_visible++
 				}
 			}
-			for _, v := range forest[x : len(forest[x])-1][y] {
+			for _, v := range forest[x:][y] {
 				if v < forest[x][y] {
 					total_visible++
 					break
